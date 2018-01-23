@@ -1,0 +1,338 @@
+<html>
+	<head>
+    <title>Introduction to Docker - WWC Jan 2018</title>
+		<link rel="stylesheet" href="lib/css/reveal.css">
+		<link rel="stylesheet" href="lib/css/theme/sky.css">
+    <script src="lib/lib/js/head.min.js"></script>
+    <style>.asterisk:before { content: "*"; }
+      .morespace li {
+        margin: 1em auto;
+      }
+    </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+          <div>
+          <h2>Introduction to Docker</h2>
+          <br/><br/>
+          <p>Live Deck: <a href="https://deck.nullocated.com">https://deck.nullocated.com</a></p>
+          <p>Deck Source: <a href="https://github.com/cchamplin/wwc-docker-deck">https://github.com/cchamplin/wwc-docker-deck</a></p>
+          </div>
+				</section>
+        <section style="top:0; position:relative;">
+          <div style="margin-top: 35px;display:flex; flex-direction: column; height: 100%;">
+					<div style="height: 64px; flex: 0 0 auto;text-align:center"><span style="font-size:0.85em;opacity: 0.3;">Software Engineer | Hobbyist | Devops | Climber | Traveler</span></div>
+					<div style="flex: 1 1 auto">
+						<h3>Who is this person?</h3>
+						<br/><span style="font-size:1.2em;color:rgba(31, 150, 58, 0.78);">Caleb Champlin</span><br/><br/><br/>
+						<ul style="list-style:none;">
+							<li><img src="lib/img/email.png" style="border:none;box-shadow:none; background:transparent; margin: 0 15px 0 0; display:inline-block" />caleb.champlin@gmail.com</li>
+							<li><a href="https://github.com/cchamplin"><img src="lib/img/github.png" style="border:none;box-shadow:none;background:transparent;margin: 0 15px 0 0;display:inline-block"/>github.com/cchamplin</a></li>
+						</ul><br/><br/>
+						<ul style="list-style: none; font-size: 0.5em;">
+							<li style="list-style:none;" class="asterisk">The type of person that has 500+ tabs open in Chrome</li>
+						</ul>
+					</div>
+					<div style="height: 64px;margin-bottom: 1em; flex: 0 0 auto;text-align:center"><span style="font-size:0.85em; opacity:0.3">Beer Lover | Educator | Contributor | Outdoor Enthusiast</span></div>
+				</div>
+			</section>
+			<section>
+				<img style="width: 65%; height:50%; border:none; background:transparent; box-shadow:none; margin:0 auto;" src="lib/img/cloud.png" />
+				<p>
+					<h3>Docker</h3>
+					<ul>
+						<li>1M+ Dockerized Applications</li>
+						<li>Over 12 billion containers pulled</li>
+						<li>Large community and support</li>
+						<li>Lot's of meetups</li>
+					</ul>
+				</p>
+			</section>
+      <section data-markdown>
+        <textarea data-template data-separator-notes="^Note:"  >
+            ## What's Covered
+
+            * Use Cases
+            * Container Basics
+            * Parts of the Docker package
+            * Installing Docker
+            * Creating your first container
+      	</textarea>
+      </section>
+			<section>
+						<h3> Is docker for me?</h3>
+							<div>
+								<div style="width:50%;float:left;">
+									<ul class="morespace">
+										<li>Software is hard</li>
+										<li>Intrastructure is hard</li>
+										<li>Environment management is hard</li>
+										<li>Life is hard</li>
+										<li>Docker can help?!</li>
+								</ul>
+							</div>
+								<div style="width:50%;float:left;">
+							<img src="lib/img/fire.png" />
+						</div>
+					</div>
+			</section>
+			<section>
+						<h3> Situations where docker can help?</h3>
+							<div>
+								<div style="width:50%;float:left;">
+									<ul class="morespace">
+										<li>Software needs to be available for lots of environment</li>
+										<li>Software needs to be available for lots of configurations</li>
+										<li>Software Pipelining</li>
+										<li>Developer onboarding</li>
+								</ul>
+							</div>
+								<div style="width:50%;float:left;">
+							<img src="lib/img/ops.jpg" />
+						</div>
+					</div>
+			</section>
+      <section>
+        <h3>Container Basics</h3>
+
+        <img src="lib/img/containers.jpg" alt="Container Store" style="width: 400px; height:400px;" />
+
+        <p>Containers are like boxes! We put things into them.</p>
+      </section>
+      <section>
+        <h3>Container Basics</h3>
+        <div>
+          <div style="display:inline-block">
+            <h4>Containers</h4>
+            <img src="lib/img/containers_vm.png" alt="Container Architecture" style="width: 400px; height:400px; display:inline-block;" />
+          </div>
+          <div style="display:inline-block">
+            <h4>VMs</h4>
+            <img src="lib/img/vm.png" alt="VM Architecture" style="width: 400px; height:400px;display:inline-block;" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>Container Basics</h3>
+        <h5>What does that really mean for me?</h5>
+        <img src="lib/img/meaning.jpg" />
+      </section>
+      <section>
+        <h3>Container Basics</h3>
+        <div>
+          <div style="">
+            <img src="lib/img/ship_withitems.png" alt="Ship" style="width: 728px; height:212px; display:inline-block;" />
+          </div>
+          <div style="">
+            <img src="lib/img/ship_withcontainers.png" alt="Container Ship" style="width: 728px; height:212px; display:inline-block;" />
+          </div>
+        </div>
+      </section>
+      <section>
+            <h3> Is docker for me?<h3>
+              <img src="lib/img/docker_reasons.jpg" />
+      </section>
+      <section data-markdown>
+        <textarea data-template data-separator-notes="^Note:"  >
+            ## Recap
+
+            * Isolation and Security without the overhead cost of VMs
+            * No issues with dependency or process conflicts
+            * Multiple instances side by side
+            * The host operating system doesn't matter or change our container's behavior
+          </textarea>
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Ubuntu/Debian</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ sudo su
+              $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+              $ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+              $ apt install docker-ce
+          </code>
+          </pre>
+          <h5>Centos/Redhat</h5>
+          <pre>
+              <code data-trim data-noescape>
+                $ sudo su
+                $ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+                $ yum install docker-ce
+            </code>
+            </pre>
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Testing our Installation</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ docker --version
+              $ docker info
+              $ docker run -it centos /bin/bash
+							$ $ cat /etc/os-release
+							$ $ ps
+							$ $ whoami
+							$ $ ls
+							$ $ rm -rf /var /lib /lib64 /bin
+          </code>
+          </pre>
+      </section>
+      <section>
+        <h3>Docker Terminology</h3>
+        <div style="width: 100%">
+          <div style="width:35%; display:inline-block; vertical-align:top;">
+            <ul>
+              <li>Docker Client</li>
+              <li>Docker Engine/Server</li>
+            </ul>
+          </div>
+          <div style="width:65%; display:inline-block">
+            <img src="lib/img/engine-components-flow.png" /></div>
+        </div>
+      </section>
+      <section>
+        <h3>Images vs. Containers</h3>
+        <ul>
+          <li>Images have every thing a container needs to run (files,users,information about processes)</li>
+          <li>Containers are a running instance of an image</li>
+        </ul>
+        <img src="lib/img/sharing-layers.jpg" style="width:65%; height: 50%;" />
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Building our first image</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ vim Dockerfile
+              FROM centos
+              RUN yum install -y python perl
+              COPY my-script.py /var/scripts
+              COPY my-script.conf /etc/
+              RUN chmod +x /var/scripts/my-script.py
+              ENTRYPOINT ["/var/scripts/my-script.py"]
+          </code>
+          </pre>
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Building our first image</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ docker build ./
+              $ docker images
+              $ docker build ./ -t my_first_image
+              $ docker run -d --name my_first_container my_first_image
+              $ docker ps
+          </code>
+          </pre>
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Building our second image</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ vim Dockerfile
+              FROM my_first_image
+              EXPOSE 80
+          </code>
+          </pre>
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Building our second image</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ docker build ./ -t my_second_image
+              $ docker run -d -p 8080:8080 --name my_second_container my_second_image
+              $ docker ps
+          </code>
+          </pre>
+      </section>
+      <section>
+        <h3>Demo</h3>
+        <h5>Interacting with images</h5>
+        <pre>
+            <code data-trim data-noescape>
+              $ docker exec -it my_second_container /bin/bash
+              $ ps
+          </code>
+          </pre>
+      </section>
+      <section data-markdown >
+        <textarea data-template data-separator-notes="^Note:">
+            ## Pitfalls
+
+            * Storage is hard
+            * Networking is hard
+				</textarea>
+      </section>
+      <section>
+        <div>
+        <h2>Introduction to Docker</h2>
+        <br/><br/>
+        <p>Deck Source: <a href="https://github.com/cchamplin/wwc-docker-deck">https://github.com/cchamplin/wwc-docker-deck</a></p>
+        </div>
+    	</section>
+    </div>
+  </div>
+  <div style="position: absolute; top: 0px; margin-left: 0px; width: 100%; background-color:#fff; filter:alpha(opacity=5); opacity:0.5; border-color:#000000;">
+    <div style="float:right; font-size: 1.5em; margin: 10px 1em;">Women Who Code<br/>Fort Collins - Jan 2018</div>
+  </div>
+  <script src="lib/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      multiplex: {
+        "secret": null,
+        "id": "0fbd0bdfce1f1a91",
+        "url": "https://deck.nullocated.com:8080"
+      },
+      dependencies: [
+        // Interpret Markdown in <section> elements
+        {
+          src: 'lib/js/plugin/markdown/marked.js',
+          condition: function() {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'lib/js/plugin/markdown/markdown.js',
+          condition: function() {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'lib/js/plugin/highlight/highlight.js',
+          async: true,
+          callback: function() {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+		    { src: 'lib/js/plugin/notes/notes.js', async: true },
+        {
+          "src": "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js",
+          async: true
+        },
+
+        { "src" : "lib/js/plugin/multiplex/client.js", async: true }/*,
+                                    { "src " : "lib/js/plugin/notes-server/client.js ", async: true}*/
+      ]
+    });
+  </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112740049-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112740049-1');
+  </script>
+</body>
+
+</html>
